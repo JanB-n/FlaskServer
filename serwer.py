@@ -40,7 +40,7 @@ def jwt_token(f):
         return f(*args, **kwargs)
    return decorated_function
 
-@app.route("/login", methods = ["POST"])
+@app.route("/logowanie", methods = ["POST"])
 def login():
     login = request.get_json()
     if db.users.count_documents({'login': login["login"], 'hash': hashlib.md5(login['password'].encode('utf-8')).hexdigest()}, limit = 1) == 1:    
@@ -49,7 +49,7 @@ def login():
     else:
         return json.dumps({'success':False}), 404, {'ContentType':'application/json'}
 
-@app.route('/register', methods=["POST"])
+@app.route('/rejestracja', methods=["POST"])
 def register():
    info = request.get_json()
    try:
@@ -63,7 +63,7 @@ def register():
       return json.dumps({'success':False, 'message':'Username already taken'}), 409, {'ContentType':'application/json'}
 
 
-@app.route("/add", methods =["POST", 'OPTIONS'])
+@app.route("/dodaj", methods =["POST", 'OPTIONS'])
 @jwt_token
 def add():
    
@@ -77,7 +77,7 @@ def add():
       print(ex)
       return json.dumps({'success':False, 'message':'Log for that date aleready exist'}), 409, {'ContentType':'application/json'}
 
-@app.route("/show", methods =["POST"])
+@app.route("/pokaz", methods =["POST"])
 @jwt_token
 def show():
    
