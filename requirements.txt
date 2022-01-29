@@ -1,5 +1,4 @@
 pyjwt
 pymongo
-json
 flask
 flask_restful
