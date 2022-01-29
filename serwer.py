@@ -11,7 +11,7 @@ app = Flask(__name__)
 api = Api(app)
 app.config['SECRET_KEY'] = "SecretKey"
 try:
-    mongo = pymongo.MongoClient("mongodb+srv://9baran:pass9baran@Sporty.mongodb.net/Sporty")
+    mongo = pymongo.MongoClient("mongodb+srv://9baran:<password>@cluster0.hmiq5.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
 
     db = mongo.Sporty
     db.users.drop_indexes()
