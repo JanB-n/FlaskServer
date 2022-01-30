@@ -101,6 +101,9 @@ def show():
       x["_id"] = str(x["_id"])
 
    return json.dumps({'success':True, 'list':json.dumps(list_cur)}), 201, {'ContentType':'application/json'}
+@app.route("/")
+def fun():
+    return 'serwer dziala'
 
 
 if __name__ == "__main__":
