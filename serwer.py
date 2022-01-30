@@ -4,7 +4,7 @@ import datetime
 import json
 import hashlib
 from functools import wraps
-from flask import Flask, request
+from flask import Flask, request, make_response
 from flask_cors import CORS, cross_origin
 from flask_restful import Api, Resource, reqparse, abort
 
@@ -30,10 +30,19 @@ except Exception as ex:
 def jwt_token(f):
    @wraps(f)
    def decorated_function(*args, **kwargs):
-        if not 'Authorization' in request.headers:
-            abort(401)
-        data = request.headers['Authorization'].encode('ascii', 'ignore')
-        token = str.replace(str(data), 'Bearer ', '')
+        if request.method == "OPTIONS":
+         
+            response = make_response()
+            response.headers.add("Access-Control-Allow-Origin", "*")
+            response.headers.add('Access-Control-Allow-Headers', "*")
+            response.headers.add('Access-Control-Allow-Methods', "*")
+            print(response)
+            return response
+        # if not 'Authorization' in request.headers:
+        #     abort(401)
+        # data = request.headers['Authorization'].encode('ascii', 'ignore')
+        # token = str.replace(str(data), 'Bearer ', '')
+        token = request.get_json()['token'][1:-1]
         try:
             user = jwt.decode(token, app.config['SECRET_KEY'], algorithms="HS256")
         except Exception as e:
@@ -47,7 +56,7 @@ def jwt_token(f):
 @app.route("/logowanie", methods = ["POST"])
 def logowanie():
     login = request.get_json()
-    print(login)
+    print('QWERTY: ', login)
     if db.users.count_documents({'login': login["login"], 'hash': hashlib.md5(login['password'].encode('utf-8')).hexdigest()}, limit = 1) == 1:    
         token = jwt.encode({'user' : login['login'], 'exp' : datetime.datetime.utcnow() + datetime.timedelta(minutes=30) }, app.config['SECRET_KEY'], algorithm="HS256")
         return json.dumps({'success':True, 'token': token, 'user': login}), 200, {'ContentType':'application/json'}
