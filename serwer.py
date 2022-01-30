@@ -5,13 +5,16 @@ import json
 import hashlib
 from functools import wraps
 from flask import Flask, request
+from flask_cors import CORS, cross_origin
 from flask_restful import Api, Resource, reqparse, abort
 
 app = Flask(__name__)
+CORS(app)
 api = Api(app)
+app.config['CORS_HEADERS'] = 'Content-Type'
 app.config['SECRET_KEY'] = "SecretKey"
 try:
-    mongo = pymongo.MongoClient("mongodb+srv://9baran:<password>@cluster0.hmiq5.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
+    mongo = pymongo.MongoClient("mongodb+srv://9baran:pass9baran@cluster0.hmiq5.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
 
     db = mongo.Sporty
     db.users.drop_indexes()
@@ -40,12 +43,14 @@ def jwt_token(f):
         return f(*args, **kwargs)
    return decorated_function
 
+
 @app.route("/logowanie", methods = ["POST"])
-def login():
+def logowanie():
     login = request.get_json()
+    print(login)
     if db.users.count_documents({'login': login["login"], 'hash': hashlib.md5(login['password'].encode('utf-8')).hexdigest()}, limit = 1) == 1:    
         token = jwt.encode({'user' : login['login'], 'exp' : datetime.datetime.utcnow() + datetime.timedelta(minutes=30) }, app.config['SECRET_KEY'], algorithm="HS256")
-        return json.dumps({'success':True, 'token': token, 'user': login}), 200, {'ContentType':'application/json'} 
+        return json.dumps({'success':True, 'token': token, 'user': login}), 200, {'ContentType':'application/json'}
     else:
         return json.dumps({'success':False}), 404, {'ContentType':'application/json'}
 
