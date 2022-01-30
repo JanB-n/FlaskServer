@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8"> 
+        <link rel="stylesheet" href="./css/serwis.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+        <script src = "./js/serwis.js"></script>
+        <title>Serwis sportowy</title>
+    </head>
+    <body>
+        <form id = "login" method = "post">
+            <p>Login:</p>
+            <input type = "text" id = "log" required/>
+            <p>Hasło:</p>
+            <input type = "password" id = "password" required/>
+            <br/>
+            <!-- <button onclick="zaloguj()">Zaloguj</button> -->
+            <button >Zaloguj</button>
+            
+            <p id="noexists" style="display: none; color: red;"> Podany użytkownik nie istnieje </p>
+        </form>
+        <button onclick="wyloguj()" id="wyloguj" style="display: none;">Wyloguj</button>
+        <br/><br/>
+        <form id="dane">
+            <p>Dyscyplina sportowa</p>
+            <input type = "text" id = "rodzaj" required/>
+            <p>Drużyna 1</p>
+            <input type = "text" id = "druzyna1" required/>
+            <p>Punkty drużyny 1</p>
+            <input type = "text" id = "punkty1" required/>
+            <p>Punkty drużyny 2</p>
+            <input type = "text" id = "punkty2" required/>
+            <p>Drużyna 2</p>
+            <input type = "text" id = "druzyna2" required/>
+            <p>Data</p>
+            <input type = "date" id = "data" required/>
+            <br/>
+            
+            <!-- <button id="butonline" onclick="online()">Dodaj do bazy online</button> -->
+            
+        </form>
+        <button onclick="local()">Dodaj do bazy lokalnej</button>
+        <button id="butonline">Dodaj do bazy online</button>
+        <div>
+            <table class="localTable">
+                <thead>
+                    <tr>
+                        <th>Sport</th>
+                        <th>Drużyna 1</th>
+                        <th>Punkty</th>
+                        <th>Drużyna 2</th>
+                        <th>Data</th>
+                    </tr>
+                <thead>
+                <tbody id="localDB">
+                    
+                </tbody>
+                
+            </table>
+            <foot>Rekordy zapisane lokalnie</foot>
+            <button onclick="refreshlocal()">Odśwież lokalną bazę</button>
+            <!-- <button id="sendallonline" onclick="sendallonline()">Wyślij rekordy do bazy online</button> -->
+            <button id="sendallonline">Wyślij rekordy do bazy online</button>
+        </div>
+        <div>
+            <table class="onlineTable">
+                <thead>
+                    <tr>
+                        <th>Sport</th>
+                        <th>Drużyna 1</th>
+                        <th>Punkty</th>
+                        <th>Drużyna 2</th>
+                        <th>Data</th>
+                    </tr>
+                <thead>
+                <tbody id="onlineDB">
+                    
+                </tbody>
+                
+            </table>
+            <foot>Rekordy zapisane online</foot>
+            <!-- <button id="refonline" onclick="refreshonline()">Odśwież bazę online</button> -->
+            <button id="refonline">Odśwież bazę online</button>
+        </div>
+        <script src = "js/online.js"></script>
+    </body>
+</html>
