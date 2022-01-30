@@ -61,7 +61,7 @@ def logowanie():
         token = jwt.encode({'user' : login['login'], 'exp' : datetime.datetime.utcnow() + datetime.timedelta(minutes=30) }, app.config['SECRET_KEY'], algorithm="HS256")
         return json.dumps({'success':True, 'token': token, 'user': login}), 200, {'ContentType':'application/json'}
     else:
-        return json.dumps({'success':False}), 404, {'ContentType':'application/json'}
+        return json.dumps({'success':False}), 402, {'ContentType':'application/json'}
 
 @app.route('/rejestracja', methods=["POST"])
 def register():
